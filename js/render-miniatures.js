@@ -1,16 +1,10 @@
-import { makeUserObjects } from "./data.js";
-
-setTimeout(() => {
+import { makeUserObjects } from './data.js';
 
 const userObjects = makeUserObjects(2);
-console.log(userObjects)
-
 const miniaturesContainer = document.querySelector('.pictures');
 const imageTemplate = document.body.querySelector('.picture__img');
 const likesTemplate = document.body.querySelector('.picture__likes');
 const commentsTemplate = document.body.querySelector('.picture__comments');
-
-console.log(miniaturesContainer, imageTemplate, likesTemplate, commentsTemplate)
 
 const pictureFragment = document.createDocumentFragment();
 
@@ -34,8 +28,6 @@ userObjects.forEach((userObject) => {
   pictureFragment.append(image, likes, comments);
   miniaturesContainer.append(pictureFragment);
 
+});
 
-console.log(miniaturesContainer);
-})
 
-}, 5000)
