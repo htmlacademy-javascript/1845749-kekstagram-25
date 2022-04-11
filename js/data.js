@@ -27,12 +27,12 @@ function makeUserObjects (userObjectsNumber) {
     userObject.url = `photos/${urlArr[i]}.jpg`;
     userObject.description = descriptionStringsArr[descriptionArr[i]];
     userObject.likes = likesArr[i];
-    userObject.comments = {
+    userObject.comments = [{
       id: commentIdArr[i],
       avatar: `img/avatar-${avatarArr[i]}.svg`,
       message: messageStringsArr[messageArr[i]],
       name: userNamesArr[namesArr[i]]
-    };
+    }];
 
     userObjectsArr.push(userObject);
   }
