@@ -1,4 +1,4 @@
-/* eslint-disable*/
+// /* eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
@@ -14,14 +14,10 @@ const cancelButton = document.getElementById('picture-cancel');
 
 cancelButton.addEventListener('click', cancelPicture);
 document.addEventListener('keydown', (e) => {
-    if (e.code === 'Escape' ) {
-        cancelPicture();
-    }
-})
-console.log(cancelButton);
-console.log(body);
-console.log(commentsSection.children[0]);
-console.log(pictureImg, likesCount, commentsCount);
+  if (e.code === 'Escape' ) {
+    cancelPicture();
+  }
+});
 
 function renderBigPicture(event) {
   const imageSrc = event.target.attributes.src.value;
@@ -40,9 +36,7 @@ function renderBigPicture(event) {
     commentImg.src = commentObj.avatar;
     commentImg.alt = commentObj.name;
     commentText.textContent = commentObj.message;
-    console.log('sss',commentImg, commentText);
   }
-  console.log(imageSrc ,userObject);
   commentsCountBlock.classList.add('hidden');
   loadCommentButton.classList.add('hidden');
   bigPictureSection.classList.remove('hidden');
@@ -50,8 +44,8 @@ function renderBigPicture(event) {
 }
 
 function cancelPicture(){
-    body.classList.remove('modal-open');
-    bigPictureSection.classList.add('hidden');
+  body.classList.remove('modal-open');
+  bigPictureSection.classList.add('hidden');
 }
 
 export { renderBigPicture };
