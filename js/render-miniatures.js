@@ -1,33 +1,32 @@
 import { makeUserObjects } from './data.js';
+import { renderBigPicture } from './render-big-pictures.js';
 
-const userObjects = makeUserObjects(2);
+const userObjects = makeUserObjects(10);
+const pictureTemplate = document.getElementById('picture');
 const miniaturesContainer = document.querySelector('.pictures');
-const imageTemplate = document.body.querySelector('.picture__img');
-const likesTemplate = document.body.querySelector('.picture__likes');
-const commentsTemplate = document.body.querySelector('.picture__comments');
-
 const pictureFragment = document.createDocumentFragment();
+miniaturesContainer.addEventListener ("click", renderBigPicture);
+
 
 userObjects.forEach((userObject) => {
-  let image;
-  let likes;
-  let comments;
-  if (imageTemplate) {
-    image = imageTemplate.cloneNode(true);
-    image.src = userObject.url;
-  }
-  if (likesTemplate) {
-    likes = likesTemplate.cloneNode(true);
-    likes.textContent = userObject.likes;
-  }
-  if (commentsTemplate) {
-    comments = commentsTemplate.cloneNode(true);
-    comments.textContent = (userObject.comments).length;
-  }
+  const miniatureLinkTemplate = pictureTemplate.content.cloneNode(true);
+  const miniatureLink = miniatureLinkTemplate.children[0];
+  const image = miniatureLink.querySelector('.picture__img');
+  const picInfo = miniatureLink.querySelector('.picture__info');
+  const likes = miniatureLink.querySelector('.picture__likes');
+  const comments = miniatureLink.querySelector('.picture__comments');
 
-  pictureFragment.append(image, likes, comments);
+  image.src = userObject.url;
+  likes.textContent = userObject.likes;
+  comments.textContent =  userObject.comments.length;
+
+  picInfo.append(likes,comments);
+
+  pictureFragment.append(image, picInfo);
   miniaturesContainer.append(pictureFragment);
 
 });
+
+export { userObjects };
 
 
