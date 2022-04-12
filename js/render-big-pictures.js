@@ -1,4 +1,3 @@
-// /* eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 
 const bigPictureSection = document.querySelector('.big-picture');

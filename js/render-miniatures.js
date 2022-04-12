@@ -5,7 +5,7 @@ const userObjects = makeUserObjects(10);
 const pictureTemplate = document.getElementById('picture');
 const miniaturesContainer = document.querySelector('.pictures');
 const pictureFragment = document.createDocumentFragment();
-miniaturesContainer.addEventListener ("click", renderBigPicture);
+miniaturesContainer.addEventListener ('click', renderBigPicture);
 
 
 userObjects.forEach((userObject) => {
