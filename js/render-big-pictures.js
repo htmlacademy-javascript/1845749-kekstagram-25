@@ -1,5 +1,5 @@
+/*eslint-disable*/
 import { userObjects } from './render-miniatures.js';
-
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
 const likesCount = document.querySelector('.likes-count');
@@ -19,27 +19,31 @@ document.addEventListener('keydown', (e) => {
 });
 
 function renderBigPicture(event) {
-  const imageSrc = event.target.attributes.src.value;
-  const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
 
-  pictureImg.src = userObject.url;
-  likesCount.textContent = userObject.likes;
-  commentsCount.textContent = userObject.comments.length;
-  pictureDescription.textContent = userObject.description;
+  if (event.target.attributes.src) {
+    
+    const imageSrc = event.target.attributes.src.value;
+    const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
 
-  for (let i = 0; i < userObject.comments.length; i++) {
-    const commentObj = userObject.comments[i];
-    const commentTemp = commentsSection.children[i];
-    const commentImg = commentTemp.children[0];
-    const commentText = commentTemp.children[1];
-    commentImg.src = commentObj.avatar;
-    commentImg.alt = commentObj.name;
-    commentText.textContent = commentObj.message;
+    pictureImg.src = userObject.url;
+    likesCount.textContent = userObject.likes;
+    commentsCount.textContent = userObject.comments.length;
+    pictureDescription.textContent = userObject.description;
+
+    for (let i = 0; i < userObject.comments.length; i++) {
+      const commentObj = userObject.comments[i];
+      const commentTemp = commentsSection.children[i];
+      const commentImg = commentTemp.children[0];
+      const commentText = commentTemp.children[1];
+      commentImg.src = commentObj.avatar;
+      commentImg.alt = commentObj.name;
+      commentText.textContent = commentObj.message;
+    }
+    commentsCountBlock.classList.add('hidden');
+    loadCommentButton.classList.add('hidden');
+    bigPictureSection.classList.remove('hidden');
+    body.classList.add('modal-open');
   }
-  commentsCountBlock.classList.add('hidden');
-  loadCommentButton.classList.add('hidden');
-  bigPictureSection.classList.remove('hidden');
-  body.classList.add('modal-open');
 }
 
 function closePicture(){
