@@ -8,13 +8,13 @@ const commentsSection = document.querySelector('.social__comments');
 const pictureDescription = document.querySelector('.social__caption');
 const commentsCountBlock = document.querySelector('.social__comment-count');
 const loadCommentButton = document.querySelector('.comments-loader');
-const body = document.getElementsByTagName('body')[0];
 const cancelButton = document.getElementById('picture-cancel');
+const body = document.getElementsByTagName('body')[0];
 
-cancelButton.addEventListener('click', cancelPicture);
+cancelButton.addEventListener('click', closePicture);
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Escape' ) {
-    cancelPicture();
+    closePicture(bigPictureSection);
   }
 });
 
@@ -42,7 +42,7 @@ function renderBigPicture(event) {
   body.classList.add('modal-open');
 }
 
-function cancelPicture(){
+function closePicture(){
   body.classList.remove('modal-open');
   bigPictureSection.classList.add('hidden');
 }
