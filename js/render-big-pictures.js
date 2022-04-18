@@ -1,4 +1,4 @@
-/*eslint-disable*/
+// /*eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
@@ -10,6 +10,7 @@ const commentsCountBlock = document.querySelector('.social__comment-count');
 const loadCommentButton = document.querySelector('.comments-loader');
 const cancelButton = document.getElementById('picture-cancel');
 const body = document.getElementsByTagName('body')[0];
+let userObject;
 
 cancelButton.addEventListener('click', closePicture);
 document.addEventListener('keydown', (e) => {
@@ -18,37 +19,65 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+loadCommentButton.addEventListener('click', showComments);
+
 function renderBigPicture(event) {
 
   if (event.target.attributes.src) {
-    
-    const imageSrc = event.target.attributes.src.value;
-    const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
-
+    // const imageSrc = event.target.attributes.src.value;
+    // const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
+    userObject = getUserObj(event);
     pictureImg.src = userObject.url;
     likesCount.textContent = userObject.likes;
-    commentsCount.textContent = userObject.comments.length;
     pictureDescription.textContent = userObject.description;
-
-    for (let i = 0; i < userObject.comments.length; i++) {
-      const commentObj = userObject.comments[i];
-      const commentTemp = commentsSection.children[i];
-      const commentImg = commentTemp.children[0];
-      const commentText = commentTemp.children[1];
-      commentImg.src = commentObj.avatar;
-      commentImg.alt = commentObj.name;
-      commentText.textContent = commentObj.message;
-    }
-    commentsCountBlock.classList.add('hidden');
-    loadCommentButton.classList.add('hidden');
+    // renderComments(userObject);
+    // commentsCountBlock.classList.add('hidden');
+    // loadCommentButton.classList.add('hidden');
     bigPictureSection.classList.remove('hidden');
     body.classList.add('modal-open');
+  }
+}
+
+function getUserObj(event) {
+  const imageSrc = event.target.attributes.src.value;
+  userObject = userObjects.find((userObj) => userObj.url === imageSrc);
+
+  return userObject;
+}
+
+function renderComments() {
+  commentsCount.textContent = userObject.comments.length;
+
+  const commentTemp = commentsSection.children[0];
+  commentsSection.innerHTML = '';
+  const commentsArr = [];
+
+  for (let i = 0; i < userObject.comments.length; i++) {
+    const newComment = commentTemp.cloneNode(true);
+    const commentObj = userObject.comments[i];
+    const commentImg = newComment.children[0];
+    const commentText = newComment.children[1];
+
+    commentImg.src = commentObj.avatar;
+    commentImg.alt = commentObj.name;
+    commentText.textContent = commentObj.message;
+    commentsArr.push(newComment);
+    commentsSection.append(newComment);
   }
 }
 
 function closePicture(){
   body.classList.remove('modal-open');
   bigPictureSection.classList.add('hidden');
+}
+
+function showComments() {
+
+  const commentsCountString = commentsCountBlock.textContent;
+  const shownComments = commentsCountString.match(/\d+/)[0];
+  const commentsCounter = +shownComments + 5;
+  commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCounter.toString());
+  renderComments();
 }
 
 export { renderBigPicture };
