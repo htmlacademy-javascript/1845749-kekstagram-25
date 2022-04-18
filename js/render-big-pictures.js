@@ -1,4 +1,4 @@
-/*eslint-disable*/
+// /*eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
@@ -19,7 +19,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-loadCommentButton.addEventListener('click', showComments)
+loadCommentButton.addEventListener('click', showComments);
 
 function renderBigPicture(event) {
 
@@ -40,7 +40,7 @@ function renderBigPicture(event) {
 
 function getUserObj(event) {
   const imageSrc = event.target.attributes.src.value;
-  const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
+  userObject = userObjects.find((userObj) => userObj.url === imageSrc);
 
   return userObject;
 }
@@ -49,23 +49,21 @@ function renderComments() {
   commentsCount.textContent = userObject.comments.length;
 
   const commentTemp = commentsSection.children[0];
-    commentsSection.innerHTML = '';
-    let commentsArr = [];
-    console.log( commentsCountBlock.textContent[0])
+  commentsSection.innerHTML = '';
+  const commentsArr = [];
 
-    for (let i = 0; i < userObject.comments.length; i++) {
-      const newComment = commentTemp.cloneNode(true);
-      const commentObj = userObject.comments[i];
-      const commentImg = newComment.children[0];
-      const commentText = newComment.children[1];
+  for (let i = 0; i < userObject.comments.length; i++) {
+    const newComment = commentTemp.cloneNode(true);
+    const commentObj = userObject.comments[i];
+    const commentImg = newComment.children[0];
+    const commentText = newComment.children[1];
 
-      commentImg.src = commentObj.avatar;
-      commentImg.alt = commentObj.name;
-      commentText.textContent = commentObj.message;
-      commentsArr.push(newComment);
-      commentsSection.append(newComment);
-    }
-    console.log('arr', commentsArr);
+    commentImg.src = commentObj.avatar;
+    commentImg.alt = commentObj.name;
+    commentText.textContent = commentObj.message;
+    commentsArr.push(newComment);
+    commentsSection.append(newComment);
+  }
 }
 
 function closePicture(){
@@ -74,13 +72,12 @@ function closePicture(){
 }
 
 function showComments() {
-  
-  let commentsCountString = commentsCountBlock.textContent;
-  let shownComments = commentsCountString.match(/\d+/)[0];
-  let commentsCount = +shownComments + 5;
-  commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCount.toString());  
+
+  const commentsCountString = commentsCountBlock.textContent;
+  const shownComments = commentsCountString.match(/\d+/)[0];
+  const commentsCounter = +shownComments + 5;
+  commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCounter.toString());
   renderComments();
-  console.log(userObject)
 }
 
 export { renderBigPicture };
