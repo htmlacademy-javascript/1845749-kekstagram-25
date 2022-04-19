@@ -1,4 +1,4 @@
-// /*eslint-disable*/
+/*eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
@@ -30,6 +30,9 @@ function renderBigPicture(event) {
     pictureImg.src = userObject.url;
     likesCount.textContent = userObject.likes;
     pictureDescription.textContent = userObject.description;
+    commentsCount.textContent = '12';
+    resetCommentsCounter();
+    renderComments(5);
     // renderComments(userObject);
     // commentsCountBlock.classList.add('hidden');
     // loadCommentButton.classList.add('hidden');
@@ -45,24 +48,31 @@ function getUserObj(event) {
   return userObject;
 }
 
-function renderComments() {
+function renderComments(commentsNumber) {
+  console.log('u',userObject)
+  console.log('uc', commentsNumber);
   commentsCount.textContent = userObject.comments.length;
 
   const commentTemp = commentsSection.children[0];
   commentsSection.innerHTML = '';
   const commentsArr = [];
 
-  for (let i = 0; i < userObject.comments.length; i++) {
-    const newComment = commentTemp.cloneNode(true);
-    const commentObj = userObject.comments[i];
-    const commentImg = newComment.children[0];
-    const commentText = newComment.children[1];
+  for (let i = 0; i < commentsNumber; i++) {
+    console.log(i)
+    if (userObject.comments[i]) {
+      const newComment = commentTemp.cloneNode(true);
+      const commentObj = userObject.comments[i];
+      const commentImg = newComment.children[0];
+      const commentText = newComment.children[1];
 
-    commentImg.src = commentObj.avatar;
-    commentImg.alt = commentObj.name;
-    commentText.textContent = commentObj.message;
-    commentsArr.push(newComment);
-    commentsSection.append(newComment);
+      commentImg.src = commentObj.avatar;
+      commentImg.alt = commentObj.name;
+      commentText.textContent = commentObj.message;
+      commentsArr.push(newComment);
+      commentsSection.append(newComment);
+    } else {
+      console.log('no')
+    }
   }
 }
 
@@ -75,9 +85,25 @@ function showComments() {
 
   const commentsCountString = commentsCountBlock.textContent;
   const shownComments = commentsCountString.match(/\d+/)[0];
+  console.log('shown com ', shownComments);
   const commentsCounter = +shownComments + 5;
-  commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCounter.toString());
-  renderComments();
+  
+  if ((commentsCounter + 1) > +(commentsCount.textContent)) {
+    console.log(+(commentsCount.textContent), 'aaaa');
+    renderComments(+(commentsCount.textContent));
+    commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCount.textContent);
+    loadCommentButton.classList.add('hidden');
+  } else {
+    renderComments(commentsCounter);
+    commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCounter.toString());
+  }
+}
+
+function resetCommentsCounter() {
+  const commentsCountString = commentsCountBlock.textContent;
+  const shownComments = commentsCountString.match(/\d+/)[0];
+  commentsCountBlock.textContent = commentsCountString.replace(shownComments, '5');
+  loadCommentButton.classList.remove('hidden');
 }
 
 export { renderBigPicture };
