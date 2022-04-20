@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import { userObjects } from './render-miniatures.js';
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
@@ -49,8 +48,6 @@ function getUserObj(event) {
 }
 
 function renderComments(commentsNumber) {
-  console.log('u',userObject)
-  console.log('uc', commentsNumber);
   commentsCount.textContent = userObject.comments.length;
 
   const commentTemp = commentsSection.children[0];
@@ -58,7 +55,6 @@ function renderComments(commentsNumber) {
   const commentsArr = [];
 
   for (let i = 0; i < commentsNumber; i++) {
-    console.log(i)
     if (userObject.comments[i]) {
       const newComment = commentTemp.cloneNode(true);
       const commentObj = userObject.comments[i];
@@ -70,8 +66,6 @@ function renderComments(commentsNumber) {
       commentText.textContent = commentObj.message;
       commentsArr.push(newComment);
       commentsSection.append(newComment);
-    } else {
-      console.log('no')
     }
   }
 }
@@ -85,11 +79,9 @@ function showComments() {
 
   const commentsCountString = commentsCountBlock.textContent;
   const shownComments = commentsCountString.match(/\d+/)[0];
-  console.log('shown com ', shownComments);
   const commentsCounter = +shownComments + 5;
-  
+
   if ((commentsCounter + 1) > +(commentsCount.textContent)) {
-    console.log(+(commentsCount.textContent), 'aaaa');
     renderComments(+(commentsCount.textContent));
     commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCount.textContent);
     loadCommentButton.classList.add('hidden');
