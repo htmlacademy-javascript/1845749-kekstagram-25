@@ -59,8 +59,8 @@ uploadForm.addEventListener('submit', (e) => {
 });
 
 function checkDescriptionLength() {
-  const description = uploadDescription.value;
-  const lengthIsCorrect = (description >= MAX_DESK_SYMBOL);
+  const description = uploadDescription.value.length;
+  const lengthIsCorrect = (description <= MAX_DESK_SYMBOL);
 
   return lengthIsCorrect;
 }
