@@ -1,5 +1,5 @@
-import { makeUserObjects } from './data.js';
+import { getImages } from './getImages.js';
 
-makeUserObjects(25);
+getImages();
 
 

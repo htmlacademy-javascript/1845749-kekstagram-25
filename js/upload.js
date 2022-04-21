@@ -1,6 +1,7 @@
-// /*eslint-disable*/
 import { uploadForm, pristine } from './validate-form.js';
 import { closePicture } from './process-form-data.js';
+import { getImages } from './getImages.js';
+import { showFilters } from './filters.js';
 
 const URL_POST = 'https://25.javascript.pages.academy/kekstagram';
 const successMessageTemplate = document.getElementById('success').content;
@@ -37,8 +38,10 @@ async function sendImage(data) {
 }
 
 function checkResponse(response) {
-  if (!response.ok) {
+  if (response.ok) {
     renderSuccessMessage();
+    getImages();
+    showFilters();
   } else {
     renderErrorMessage();
   }
