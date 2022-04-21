@@ -1,3 +1,6 @@
+// /*eslint-disable*/
+import { uploadForm } from './validate-form.js';
+
 const uploadFileInput = document.getElementById('upload-file');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.getElementsByTagName('body')[0];
@@ -31,10 +34,11 @@ function showModal() {
   makeSmallerButton.addEventListener('click', makeImageSmaller);
 }
 
-function closePicture(){
+export function closePicture(){
   uploadFileInput.value='';
   body.classList.remove('modal-open');
   uploadOverlay.classList.add('hidden');
+  uploadForm.reset();
 }
 
 function makeImageBigger() {
