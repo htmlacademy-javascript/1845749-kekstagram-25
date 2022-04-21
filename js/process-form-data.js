@@ -1,4 +1,3 @@
-// /*eslint-disable*/
 import { uploadForm } from './validate-form.js';
 
 const uploadFileInput = document.getElementById('upload-file');

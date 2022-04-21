@@ -1,4 +1,3 @@
-// /*eslint-disable*/
 import { onSubmit } from './upload.js';
 
 const MAX_TAGS = 5;

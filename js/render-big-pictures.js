@@ -1,4 +1,3 @@
-import { userObjects } from './render-miniatures.js';
 const bigPictureSection = document.querySelector('.big-picture');
 const pictureImg = document.querySelector('.big-picture__img').childNodes[1];
 const likesCount = document.querySelector('.likes-count');
@@ -9,7 +8,14 @@ const commentsCountBlock = document.querySelector('.social__comment-count');
 const loadCommentButton = document.querySelector('.comments-loader');
 const cancelButton = document.getElementById('picture-cancel');
 const body = document.getElementsByTagName('body')[0];
+const startCommentsLength = '2';
+
 let userObject;
+let userObjects;
+
+export function getReadyBigPictureRender(objects) {
+  userObjects = objects;
+}
 
 cancelButton.addEventListener('click', closePicture);
 document.addEventListener('keydown', (e) => {
@@ -20,23 +26,24 @@ document.addEventListener('keydown', (e) => {
 
 loadCommentButton.addEventListener('click', showComments);
 
-function renderBigPicture(event) {
+export function renderBigPicture(event) {
 
   if (event.target.attributes.src) {
-    // const imageSrc = event.target.attributes.src.value;
-    // const userObject = userObjects.find((userObj) => userObj.url === imageSrc);
     userObject = getUserObj(event);
     pictureImg.src = userObject.url;
     likesCount.textContent = userObject.likes;
     pictureDescription.textContent = userObject.description;
-    commentsCount.textContent = '12';
-    resetCommentsCounter();
-    renderComments(5);
-    // renderComments(userObject);
-    // commentsCountBlock.classList.add('hidden');
-    // loadCommentButton.classList.add('hidden');
+
+    resetCommentsCounter((userObject.comments.length).toString());
+    renderComments(2);
     bigPictureSection.classList.remove('hidden');
     body.classList.add('modal-open');
+
+    const commentsCountString = commentsCountBlock.textContent;
+    const commentNumbers = commentsCountString.match(/\d+/g);
+    const shownComments = commentNumbers[0];
+    const firstRep = commentsCountString.replace(shownComments, startCommentsLength);
+    commentsCountBlock.textContent = firstRep;
   }
 }
 
@@ -48,8 +55,8 @@ function getUserObj(event) {
 }
 
 function renderComments(commentsNumber) {
-  commentsCount.textContent = userObject.comments.length;
 
+  commentsCount.textContent = commentsNumber;
   const commentTemp = commentsSection.children[0];
   commentsSection.innerHTML = '';
   const commentsArr = [];
@@ -76,14 +83,14 @@ function closePicture(){
 }
 
 function showComments() {
-
   const commentsCountString = commentsCountBlock.textContent;
-  const shownComments = commentsCountString.match(/\d+/)[0];
-  const commentsCounter = +shownComments + 5;
+  const commentNumbers = commentsCountString.match(/\d+/g);
+  const shownComments = commentNumbers[0];
+  const commentsCounter = +shownComments + 2;
 
-  if ((commentsCounter + 1) > +(commentsCount.textContent)) {
-    renderComments(+(commentsCount.textContent));
-    commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentsCount.textContent);
+  if ((commentsCounter + 1) > +(commentNumbers[1])) {
+    renderComments(+(commentNumbers[1]));
+    commentsCountBlock.textContent = commentsCountString.replace(shownComments, commentNumbers[1]);
     loadCommentButton.classList.add('hidden');
   } else {
     renderComments(commentsCounter);
@@ -91,11 +98,10 @@ function showComments() {
   }
 }
 
-function resetCommentsCounter() {
+function resetCommentsCounter(commCount) {
   const commentsCountString = commentsCountBlock.textContent;
-  const shownComments = commentsCountString.match(/\d+/)[0];
-  commentsCountBlock.textContent = commentsCountString.replace(shownComments, '5');
+  const commentNumbers = commentsCountString.match(/\d+/g);
+  commentsCountBlock.textContent = commentsCountString.replace(commentNumbers[1], commCount);
   loadCommentButton.classList.remove('hidden');
 }
 
-export { renderBigPicture };
