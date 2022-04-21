@@ -1,3 +1,6 @@
+// /*eslint-disable*/
+import { onSubmit } from './upload.js';
+
 const MAX_TAGS = 5;
 const MAX_TAG_SYMBOL = 20;
 const TAGS_REGEXP = /^#[A-Za-zА-Яа-яЕё0-9]+$/;
@@ -6,6 +9,17 @@ const MAX_DESK_SYMBOL = 140;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadTagsImput = uploadForm.querySelector('.text__hashtags');
 const uploadDescription = uploadForm.querySelector('.text__description');
+
+const pristine = new Pristine(uploadForm, {
+  classTo: 'text__label',
+  errorClass: 'text__label--invalid',
+  successClass: 'text__label--valid',
+  errorTextParent: 'text__label',
+  errorTextTag: 'div',
+  errorTextClass: 'text__error-message'
+});
+
+uploadForm.addEventListener('submit', onSubmit);
 
 function makeTagsArr() {
   const tagsString = (uploadTagsImput.value).toLowerCase();
@@ -51,28 +65,12 @@ function checkTagsCount() {
   return tagsRightLength;
 }
 
-uploadForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  checkDublicates();
-  tagsAreValidRegExp();
-  checkTagsCount();
-});
-
 function checkDescriptionLength() {
   const description = uploadDescription.value.length;
   const lengthIsCorrect = (description <= MAX_DESK_SYMBOL);
 
   return lengthIsCorrect;
 }
-
-const pristine = new Pristine(uploadForm, {
-  classTo: 'text__label',
-  errorClass: 'text__label--invalid',
-  successClass: 'text__label--valid',
-  errorTextParent: 'text__label',
-  errorTextTag: 'div',
-  errorTextClass: 'text__error-message'
-});
 
 pristine.addValidator(uploadTagsImput, checkDublicates, 'Хэштеги не должны повторяться');
 pristine.addValidator(uploadTagsImput, tagsAreValidRegExp, 'Хэштеги содержат недопустимые символы. Хэштег должен содержать только буквы и цифры');
@@ -83,3 +81,4 @@ pristine.addValidator(uploadDescription, checkDescriptionLength, 'Длина о�
 uploadTagsImput.addEventListener('keydown', (e) => {if (e.code === 'Escape') {e.stopPropagation();}});
 uploadDescription.addEventListener('keydown', (e) => {if (e.code === 'Escape') {e.stopPropagation();}});
 
+export { uploadForm, pristine };
